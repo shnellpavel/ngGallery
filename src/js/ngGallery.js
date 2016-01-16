@@ -38,7 +38,7 @@ angular.module('jkuri.gallery', [])
 	'  <a class="nav-left" ng-click="prevImage()"><i class="fa fa-angle-left"></i></a>' +
 	'  <img ng-src="{{ img }}" ng-click="nextImage()" ng-show="!loading" class="effect" />' +
 	'  <a class="nav-right" ng-click="nextImage()"><i class="fa fa-angle-right"></i></a>' +
-	'  <span class="info-text">{{ index + 1 }}/{{ images.length }} - {{ description }}</span>' +
+	'  <span class="info-text">{{ index + 1 }}/{{ images.length }} {{ description }}</span>' +
 	'  <div class="ng-thumbnails-wrapper">' +
 	'    <div class="ng-thumbnails slide-left">' +
 	'      <div ng-repeat="i in images">' + 
@@ -142,7 +142,7 @@ angular.module('jkuri.gallery', [])
 					$thumbnails.css({ width: calculatedWidth.width + 'px' });
 					$thumbwrapper.css({ width: calculatedWidth.visible_width + 'px' });
 					smartScroll(scope.index);
-				});
+				}, 200);
 			};
 
 			scope.closeGallery = function () {
@@ -169,6 +169,8 @@ angular.module('jkuri.gallery', [])
 				var width = 0,
 					visible_width = 0;
 				angular.forEach($thumbnails.find('img'), function(thumb) {
+					window.b = thumb;
+					console.log(thumb, thumb.clientWidth);
 					width += thumb.clientWidth;
 					width += 10; // margin-right
 					visible_width = thumb.clientWidth + 10;
@@ -192,6 +194,10 @@ angular.module('jkuri.gallery', [])
 					$thumbwrapper[0].scrollLeft = i * item_scroll - (s * item_scroll);
 				}, 100);
 			};
+
+			scope.$on('open-gallery', function () {
+				scope.openGallery(scope.index);
+			});
 
 		}
 	};
