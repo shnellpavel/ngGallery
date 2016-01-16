@@ -25,7 +25,7 @@ angular.module('jkuri.gallery', [])
 	var template_url = defaults.templateUrl;
 	// Set the default template
   	$templateCache.put(template_url,
-	'<div class="{{ baseClass }}">' +
+	'<div ng-show="!isHidden" class="{{ baseClass }}">' +
 	'  <div ng-repeat="i in images">' +
 	'    <img ng-src="{{ i.thumb }}" class="{{ thumbClass }}" ng-click="openGallery($index)" alt="Image {{ $index + 1 }}" />' +
 	'  </div>' +
@@ -53,7 +53,8 @@ angular.module('jkuri.gallery', [])
 		restrict: 'EA',
 		scope: {
 			images: '=',
-			thumbsNum: '@'
+			thumbsNum: '@',
+			isHidden: '='
 		},
 		templateUrl: function(element, attrs) {
         		return attrs.templateUrl || defaults.templateUrl;
@@ -169,8 +170,6 @@ angular.module('jkuri.gallery', [])
 				var width = 0,
 					visible_width = 0;
 				angular.forEach($thumbnails.find('img'), function(thumb) {
-					window.b = thumb;
-					console.log(thumb, thumb.clientWidth);
 					width += thumb.clientWidth;
 					width += 10; // margin-right
 					visible_width = thumb.clientWidth + 10;
